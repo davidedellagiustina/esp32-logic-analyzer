@@ -78,7 +78,8 @@ def decode_datastream():
 def plot_data():
     global bufrle
     global fig, ax, plotx, ploty
-    fig = plt.figure(figsize=(15,6), constrained_layout=True)
+    fig = plt.figure(figsize=(13,7))
+    plt.subplots_adjust(left=0.07, right=0.95, top=0.93, bottom=0.1)
     ax = fig.add_subplot(111)
     ax.set_title('Oscilloscope')
     ax.set_xlabel('time [$\mu s$]')
