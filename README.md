@@ -5,7 +5,7 @@
 	<a href="https://github.com/davidedellagiustina/esp32-oscilloscope">
 		<img src="imgs/logo.png" alt="Logo" height=80">
 	</a>
-	<h3 align="center">A Cute Readme Template</h3>
+	<h3 align="center">ESP32 Oscilloscope</h3>
 	<p align="center">
 		<img src="https://img.shields.io/static/v1?label=version&message=1.0&color=blue" alt="v1.0">
 		<img src="https://img.shields.io/static/v1?label=license&message=cc-by-nc-sa&color=green" alt="cc-by-nc-sa">
