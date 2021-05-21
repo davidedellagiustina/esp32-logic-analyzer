@@ -2,50 +2,33 @@
 
 <br/>
 <p align="center">
-	<a href="https://github.com/davidedellagiustina-templates/cute-readme">
-		<img src="imgs/default-logo.png" alt="Logo" height=80">
+	<a href="https://github.com/davidedellagiustina/esp32-oscilloscope">
+		<img src="imgs/logo.png" alt="Logo" height=80">
 	</a>
 	<h3 align="center">A Cute Readme Template</h3>
 	<p align="center">
-		<img src="https://img.shields.io/static/v1?label=&message=template%20repository&color=orange" alt="template repository">
 		<img src="https://img.shields.io/static/v1?label=version&message=1.0&color=blue" alt="v1.0">
 		<img src="https://img.shields.io/static/v1?label=license&message=cc-by-nc-sa&color=green" alt="cc-by-nc-sa">
 		<br/>
-		A simple template for quickly creating cute readmes in your projects.
+		A very basic esp32-based oscilloscope capable of sampling digital signals at up to ~3.2MHz.
 		<br/>
-		<!-- <a href="https://github.com/davidedellagiustina-templates/cute-readme/wiki"><strong>Explore the documentation</strong></a> -->
 	</p>
 </p>
 
-![Screenshot](imgs/default-screenshot.png)
+<!-- ![Screenshot](imgs/screenshot.png) -->
 
 <!-- TABLE OF CONTENTS -->
 
 ## Table of contents <!-- omit in toc -->
 
 - [About the project](#about-the-project)
-- [Getting started](#getting-started)
 - [License](#license)
 
 <!-- ABOUT THE PROJECT -->
 
 ## About the project
 
-This repository provides a simple and easy to use template including the following features:
-- a cute and customizable readme;
-- the `cc-by-nc-sa 4.0` license.
-
-<!-- GETTING STARTED -->
-
-## Getting started
-
-In order to start using this template, just create a new repository and select this one as a template!
-
-<!-- ### Prerequisites -->
-
-<!-- ### Installation -->
-
-<!-- ## Usage -->
+For a university project I needed a basic oscilloscope for sampling a signal coming from an IR receiver (~38kHz carrier frequency). Therefore, I decided to build my own by using an esp32, and it turned out to be quite good!
 
 ## License
 
