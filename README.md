@@ -15,7 +15,9 @@
 	</p>
 </p>
 
-![Screenshot](imgs/screenshot.png)
+<p align="center>
+	<img src="imgs/screenshot.png" alt="Screenshot">
+</p>
 
 <!-- TABLE OF CONTENTS -->
 
