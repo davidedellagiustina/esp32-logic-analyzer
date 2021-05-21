@@ -15,7 +15,7 @@
 	</p>
 </p>
 
-<p align="center>
+<p align="center">
 	<img src="imgs/screenshot.png" alt="Screenshot">
 </p>
 
