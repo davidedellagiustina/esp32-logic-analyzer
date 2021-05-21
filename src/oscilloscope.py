@@ -1,4 +1,4 @@
-import serial
+import pickle, serial
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -44,6 +44,7 @@ def start_recording():
 # Generates a RLE list that will be plotted
 def decode_datastream():
     global bufserial, bufrle
+    print('Decoding data...')
     # Drop any truncated message that was read on the serial
     start = bufserial.find('DATA::')
     if start == -1:
@@ -78,6 +79,7 @@ def decode_datastream():
 def plot_data():
     global bufrle
     global fig, ax, plotx, ploty
+    print('Building plot...')
     fig = plt.figure(figsize=(13,7))
     plt.subplots_adjust(left=0.07, right=0.95, top=0.93, bottom=0.1)
     ax = fig.add_subplot(111)
@@ -95,6 +97,28 @@ def plot_data():
             ploty.append(v)
     ax.plot(plotx, ploty, 'c-') # Cyan line
     fig.show()
+
+# Save a serialized representation of the recorded data
+# Saves all the buffers (so we can always recover old captures even if this software gets updated)
+# It seems that is not possible to pickle the final plot, but we can just recompute it on-the-fly
+def save_recording():
+    global bufserial, bufrle
+    filename = input('Enter the filename: ')
+    print('Saving recording...')
+    with open(filename, 'wb') as f:
+        pickle.dump((bufserial, bufrle), f)
+    print('Done')
+
+# Load a previously saved recording
+# Loads all buffers, then regenerates and shows plot
+def load_recording():
+    global bufserial, bufrle
+    filename = input('Enter the filename: ')
+    print('Loading recording...')
+    with open(filename, 'rb') as f:
+        bufserial, bufrle = pickle.load(f)
+    print('Done')
+    plot_data()
 
 # [ ===== MAIN ===== ]
 
@@ -134,11 +158,9 @@ if __name__ == '__main__':
             decode_datastream()
             plot_data()
         elif choice == 's': # Save previous recording
-            # save_recording()
-            print('TODO')
+            save_recording()
         elif choice == 'l': # Load saved recording
-            # load_recording()
-            print('TODO')
+            load_recording()
         else: # Unrecognized option
             print('Unrecognized option')
     exit(0)
