@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-	<img src="imgs/screenshot.png" alt="Screenshot">
+	<img src="imgs/sample.png" alt="Screenshot">
 </p>
 
 <!-- TABLE OF CONTENTS -->
