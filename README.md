@@ -15,7 +15,7 @@
 	</p>
 </p>
 
-<!-- ![Screenshot](imgs/screenshot.png) -->
+![Screenshot](imgs/screenshot.png)
 
 <!-- TABLE OF CONTENTS -->
 
