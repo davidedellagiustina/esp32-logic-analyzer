@@ -11,7 +11,7 @@
 
 const int probe = 23; // Probe pin (you should connect a proper pull-up/pull-down resistor there!)
 const int serial_baudrate = 500000; // Don't go over 1MHz, otherwise you will read pretty much garbage
-const int bufsize = 10000; // Size of the internal buffer (doesn't compile if too big)
+const int bufsize = 9000; // Size of the internal buffer (doesn't compile if too big)
 const bool enable_bufmonitor = true; // Whether to enable the buffer-manager process
                                      // Disabling it will leave more CPU power for the serial-manager process
 const int bufmonitor_interval = 1000; // Time interval (in milliseconds) when to check for buffer space
@@ -22,6 +22,8 @@ const int bufmonitor_interval = 1000; // Time interval (in milliseconds) when to
 typedef struct { // Elements of the buffer, run-length encoding
   uint8_t elem;
   uint16_t count; // Max = 65535 (max_run)
+  uint32_t t_start; // Timer of first reading
+  uint32_t t_end; // Timer of last reading
 } bufelem_t;
 const int max_run = 65535;
 bufelem_t buf[bufsize];

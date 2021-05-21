@@ -60,9 +60,18 @@ def decode_datastream():
     try:
         for record in spl:
             if 'DATA::' in record:
-                bufrle.append((int(record[6:7]), int(record[8:])))
+                tmp1 = record[6:].split('x')
+                tmp2 = tmp1[1].split('-')
+                bufrle.append((int(tmp1[0]), int(tmp2[0]), int(tmp2[1])))
     except:
         print('ERROR: Unknown format encountered in recorded data')
+    # Shift RLE buffer to make it start from 0
+    m = bufrle[0][1]
+    for i in range(len(bufrle)):
+        v = bufrle[i][0]
+        s = bufrle[i][1] - m
+        e = bufrle[i][2] - m
+        bufrle[i] = (v, s, e)
 
 # Plot the decoded data
 # Instead of drawing all points, draw a line for each run in order to be faster
@@ -76,15 +85,13 @@ def plot_data():
     ax.set_ylim([-0.05,1.05])
     ax.grid(True)
     plotx, ploty = [], []
-    dt = 0
-    for v,t in bufrle:
-        plotx.append(dt)
+    for v,s,e in bufrle:
+        plotx.append(s)
         ploty.append(v)
-        dt += t - 1
-        plotx.append(dt)
-        ploty.append(v)
-        dt += 1
-    ax.plot(plotx, ploty, 'c-')
+        if s != e:
+            plotx.append(e)
+            ploty.append(v)
+    ax.plot(plotx, ploty, 'c-') # Cyan line
     fig.show()
 
 # [ ===== MAIN ===== ]
