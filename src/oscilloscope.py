@@ -1,4 +1,4 @@
-import pickle, serial
+import pickle, serial, time
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -16,6 +16,41 @@ plt.style.use(['ggplot'])
 
 # [ ===== FUNC ===== ]
 
+# Set some settings about the recording device
+def settings():
+    global port, baudrate
+    new_baudrate = None
+    new_port = input('Enter the serial port where the ESP32 is connected: ')
+    try:
+        new_baudrate = int(input('Enter the serial baudrate: '))
+        port, baudrate = new_port, new_baudrate
+    except:
+        print('ERROR: insert a valid number as a baudrate - last valid settings will be restored')
+
+# Check if the recording device is connected
+# Returns true on success, false otherwise
+def check_device():
+    global s, port, baudrate
+    try:
+        s = serial.Serial(port, baudrate)
+        s.close()
+        return True
+    except:
+        return False
+
+# Read a chunk of data from the serial port
+def read_data_from_serial():
+    global s, bufserial
+    try:
+        raw = s.read(s.in_waiting).decode(errors='replace') # Read data in chunks whenever it's available
+        bufserial += raw
+        if 'INFO::FREEBUF=0' in raw: # Check reported buffer state in ~real-time
+            print('WARNING: ESP32 is reporting a full buffer - sampling frequency will dramatically drop')
+    except KeyboardInterrupt: raise
+    except:
+        print('ERROR: device was disconnected')
+        raise
+
 # Record data from the serial port in the fastest way possible
 # Don't perform any processing nor decoding on the data
 def start_recording():
@@ -28,16 +63,16 @@ def start_recording():
         s = serial.Serial(port, baudrate)
     except:
         print('ERROR: device was disconnected')
-        exit(1)
+        raise
     print('Recording started')
     try:
-        while True:
-            raw = s.read(s.in_waiting).decode(errors='replace') # Read data in chunks whenever it's available
-            bufserial += raw
-            if 'INFO::FREEBUF=0' in raw: # Check reported buffer state in ~real-time
-                print('WARNING: ESP32 is reporting a full buffer - sampling frequency will dramatically drop')
+        while True: read_data_from_serial()
     except KeyboardInterrupt:
         print('Recording stopped')
+        print('Waiting for the device to send any late and buffered data...')
+        # If the sensor produces data at a high frequency (e.g. an IR sensor), it takes a lot of time to send them over the serial port since it runs at ~13kHz and RLE doesn't really suit this case
+        time.sleep(2)
+        read_data_from_serial()
         s.close()
 
 # Decode the raw recorded data
@@ -124,43 +159,38 @@ def load_recording():
 
 if __name__ == '__main__':
 
-    # Welcome and settings
+    # Welcome and settings, check if device attached and ready
     print('Welcome to the ESP32 Oscilloscope interface')
-    port = input('Enter the serial port where the ESP32 is connected: ')
-    baudrate = None
-    try:
-        baudrate = int(input('Enter the serial baudrate: '))
-    except:
-        print('ERROR: insert a valid number as a baudrate')
-        exit(1)
-
-    # Chck if device attached and ready
-    try:
-        s = serial.Serial(port, baudrate)
-        s.close()
-        print('Your device was correctly detected')
-        print()
-    except:
-        print('ERROR: there is no such device')
-        exit(1)
+    settings()
+    if (check_device()): print('Your device was correctly detected')
+    else: print('WARNING: you do not have a recording device connected')
+    print()
 
     # Main menu
-    print('Press:\n - \'r\' to start recording data\n - \'s\' to save the previous recording\n - \'l\' to load a previously saved one\n - \'q\' to quit')
+    print('Press:\n - \'r\' to start recording data\n - \'s\' to save the previous recording\n - \'l\' to load a previously saved one\n - \'t\' to edit settings\n - \'q\' to quit')
     print('While recording, press \'Ctrl-C\' to stop, analyze the recorded data, and plot it')
     while True:
         print()
-        choice = input('Your choice [r|s|l|q]: ')
+        choice = input('Your choice [r|s|l|t|q]: ')
         if choice == 'q': # Quit
             print('Bye!')
             break
         elif choice == 'r': # Start recording
-            start_recording()
-            decode_datastream()
-            plot_data()
+            if (check_device()):
+                try:
+                    start_recording()
+                    decode_datastream()
+                    plot_data()
+                except: pass
+            else: print('ERROR: you do not have a recording device connected')
         elif choice == 's': # Save previous recording
             save_recording()
         elif choice == 'l': # Load saved recording
             load_recording()
+        elif choice == 't': # Edit settings
+            settings()
+            if (check_device()): print('Your device was correctly detected')
+            else: print('WARNING: you do not have a recording device connected')
         else: # Unrecognized option
             print('Unrecognized option')
     exit(0)
