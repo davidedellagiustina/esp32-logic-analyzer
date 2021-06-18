@@ -118,7 +118,7 @@ def plot_data():
     fig = plt.figure(figsize=(13,7))
     plt.subplots_adjust(left=0.07, right=0.95, top=0.93, bottom=0.1)
     ax = fig.add_subplot(111)
-    ax.set_title('Oscilloscope')
+    ax.set_title('Logic Analyzer')
     ax.set_xlabel('time [$\mu s$]')
     ax.set_ylabel('logical value')
     ax.set_ylim([-0.05,1.05])
@@ -160,7 +160,7 @@ def load_recording():
 if __name__ == '__main__':
 
     # Welcome and settings, check if device attached and ready
-    print('Welcome to the ESP32 Oscilloscope interface')
+    print('Welcome to the ESP32 Logic Analyzer interface')
     settings()
     if (check_device()): print('Your device was correctly detected')
     else: print('WARNING: you do not have a recording device connected')

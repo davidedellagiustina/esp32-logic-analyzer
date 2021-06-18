@@ -2,15 +2,15 @@
 
 <br/>
 <p align="center">
-	<a href="https://github.com/davidedellagiustina/esp32-oscilloscope">
+	<a href="https://github.com/davidedellagiustina/esp32-logic-analyzer">
 		<img src="imgs/logo.png" alt="Logo" height=80">
 	</a>
-	<h3 align="center">ESP32 Oscilloscope</h3>
+	<h3 align="center">ESP32 Logic Analyzer</h3>
 	<p align="center">
 		<img src="https://img.shields.io/static/v1?label=version&message=1.0&color=blue" alt="v1.0">
 		<img src="https://img.shields.io/static/v1?label=license&message=cc-by-nc-sa&color=green" alt="cc-by-nc-sa">
 		<br/>
-		A very basic esp32-based oscilloscope capable of sampling digital signals at up to ~3.2MHz.
+		A very basic esp32-based logic analyzer capable of sampling digital signals at up to ~3.2MHz.
 		<br/>
 	</p>
 </p>
@@ -30,7 +30,7 @@
 
 ## About the project
 
-For a university project I needed a basic oscilloscope for sampling a signal coming from an IR receiver (~38kHz carrier frequency). Therefore, I decided to build my own by using an esp32, and it turned out to be quite good!
+For a university project I needed a basic logic analyzer for sampling a signal coming from an IR receiver (~38kHz carrier frequency). Therefore, I decided to build my own by using an esp32, and it turned out to be quite good!
 
 ## License
 
